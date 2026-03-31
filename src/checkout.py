@@ -18,7 +18,7 @@ class CheckoutResult:
         self.success = success
         self.message = message
         self.order_ids = order_ids or []
-        self.failures = failures or []   # items that could not be ordered
+        self.failures = []   # items that could not be ordered
 
     def __repr__(self):
         return (f"CheckoutResult(success={self.success}, "
