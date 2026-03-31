@@ -175,7 +175,7 @@ class TestCheckoutPartialFailure:
         assert "hoverboard" in remaining       # still in cart
         assert "mouse" not in remaining        # successfully ordered, removed
 
-    def test_successful_items_stock_is_reduced_despite_partial_failure(self, failures):
+    def test_successful_items_stock(self, failures):
         cart.add_to_cart("grace@example.com", "keyboard", 5)
         cart.add_to_cart("grace@example.com", "hoverboard", 1)
 
