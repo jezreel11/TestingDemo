@@ -14,7 +14,7 @@ import orders
 
 
 class CheckoutResult:
-    def __init__(self,success:bool,message:str,order_ids:list=None,failures:list=None):
+    def __init__(self, success, message, order_ids, failures):
         self.success = success
         self.message = message
         self.order_ids = order_ids or []
