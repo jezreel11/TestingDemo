@@ -12,7 +12,7 @@ class OrderResult:
         self.order_id = order_id
 
     def __repr__(self):
-        return f"OrderResult({self.success},'{self.message}','{self.order_id}')"
+        return f"OrderResult({self.success},{self.message}','{self.order_id}')"
 
 
 _order_counter = [1000]
