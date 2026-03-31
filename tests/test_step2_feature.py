@@ -40,7 +40,7 @@ def setup_function():
 
 class TestCheckoutHappyPath:
 
-    def test_checkout_single_item_succeeds(self, failures):
+    def test_checkout_single_item_succeeds(self):
         """
         PRECONDITION : Customer has 1 item in cart, item is in stock.
         ACTION       : Customer checks out.
