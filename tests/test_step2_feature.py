@@ -40,7 +40,7 @@ def setup_function():
 
 class TestCheckoutHappyPath:
 
-    def test_checkout_single_item_succeeds(self):
+    def test_checkout_single_item_succeeds(self, failures):
         """
         PRECONDITION : Customer has 1 item in cart, item is in stock.
         ACTION       : Customer checks out.
@@ -53,7 +53,7 @@ class TestCheckoutHappyPath:
         assert result.success is True
         assert len(result.order_ids) == 1
 
-    def test_checkout_clears_cart_on_success(self):
+    def test_checkout_clears_cart_on_success(self, failures):
         """
         PRECONDITION : Customer has items in cart.
         ACTION       : Customer checks out successfully.
@@ -65,7 +65,7 @@ class TestCheckoutHappyPath:
 
         assert cart.get_cart("alice@example.com") == {}
 
-    def test_checkout_multi_item_cart_succeeds(self):
+    def test_checkout_multi_item_cart_succeeds(self, failures):
         """
         PRECONDITION : Customer has 3 different items in cart, all in stock.
         ACTION       : Customer checks out.
@@ -80,7 +80,7 @@ class TestCheckoutHappyPath:
         assert result.success is True
         assert len(result.order_ids) == 3
 
-    def test_checkout_reduces_stock_for_all_items(self):
+    def test_checkout_reduces_stock_for_all_items(self, failures):
         """
         PRECONDITION : Customer cart has laptop×2 and mouse×10.
         ACTION       : Customer checks out.
@@ -94,7 +94,7 @@ class TestCheckoutHappyPath:
         assert inventory.get_stock("laptop") == 8    # 10 - 2
         assert inventory.get_stock("mouse") == 40    # 50 - 10
 
-    def test_checkout_sends_confirmation_per_item(self):
+    def test_checkout_sends_confirmation_per_item(self, failures):
         """
         PRECONDITION : Customer cart has 2 items.
         ACTION       : Customer checks out.
@@ -118,7 +118,7 @@ class TestCheckoutHappyPath:
 
 class TestCheckoutEmptyCart:
 
-    def test_checkout_with_empty_cart_fails(self):
+    def test_checkout_with_empty_cart_fails(self, failures):
         """
         PRECONDITION : Customer has no items in their cart.
         ACTION       : Customer attempts to check out.
@@ -129,7 +129,7 @@ class TestCheckoutEmptyCart:
         assert result.success is False
         assert "empty" in result.message.lower()
 
-    def test_checkout_empty_cart_sends_no_notification(self):
+    def test_checkout_empty_cart_sends_no_notification(self, failures):
         result = checkout.checkout("ed@example.com")
 
         assert result.success is False
@@ -142,7 +142,7 @@ class TestCheckoutEmptyCart:
 
 class TestCheckoutPartialFailure:
 
-    def test_out_of_stock_item_causes_partial_failure(self):
+    def test_out_of_stock_item_causes_partial_failure(self, failures):
         """
         PRECONDITION : Cart has laptop×1 and hoverboard×1.
         ACTION       : Customer checks out.
@@ -159,7 +159,7 @@ class TestCheckoutPartialFailure:
         assert len(result.failures) == 1       # hoverboard failed
         assert result.failures[0]["item_id"] == "hoverboard"
 
-    def test_failed_item_stays_in_cart_after_partial_checkout(self):
+    def test_failed_item_stays_in_cart_after_partial_checkout(self, failures):
         """
         PRECONDITION : Cart has one good item and one out-of-stock item.
         ACTION       : Customer checks out (partial failure).
@@ -175,7 +175,7 @@ class TestCheckoutPartialFailure:
         assert "hoverboard" in remaining       # still in cart
         assert "mouse" not in remaining        # successfully ordered, removed
 
-    def test_successful_items_stock_is_reduced_despite_partial_failure(self):
+    def test_successful_items_stock_is_reduced_despite_partial_failure(self, failures):
         cart.add_to_cart("grace@example.com", "keyboard", 5)
         cart.add_to_cart("grace@example.com", "hoverboard", 1)
 
@@ -183,7 +183,7 @@ class TestCheckoutPartialFailure:
 
         assert inventory.get_stock("keyboard") == 20   # 25 - 5, deducted
 
-    def test_requesting_more_than_stock_causes_failure(self):
+    def test_requesting_more_than_stock_causes_failure(self, failures):
         """
         PRECONDITION : Cart requests 999 laptops, only 10 available.
         ACTION       : Checkout attempted.
@@ -203,7 +203,7 @@ class TestCheckoutPartialFailure:
 
 class TestCheckoutInputValidation:
 
-    def test_invalid_email_is_rejected(self):
+    def test_invalid_email_is_rejected(self, failures):
         """
         PRECONDITION : Customer email is malformed (no @ sign).
         ACTION       : Checkout attempted.
@@ -219,7 +219,7 @@ class TestCheckoutInputValidation:
         assert inventory.get_stock("laptop") == 10   # unchanged
         assert len(notifications.get_sent()) == 0
 
-    def test_two_different_customers_carts_are_independent(self):
+    def test_two_different_customers_carts_are_independent(self, failures):
         """
         PRECONDITION : Alice and Bob each have different items in their carts.
         ACTION       : Alice checks out.
