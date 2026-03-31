@@ -38,7 +38,7 @@ def checkout(customer_email: str) -> CheckoutResult:
 
     After processing all items:
       - If every item succeeded: cart is cleared, result is success
-      - If some items failed: cart keeps only the failed items, result is partial failure
+      - If some items failed: cart keeps only the failed items
       - If the cart was empty: return an error immediately
 
     Notifications are sent per item by orders.place_order() automatically.
@@ -73,7 +73,7 @@ def checkout(customer_email: str) -> CheckoutResult:
             cart.add_to_cart(customer_email, f["item_id"], f["quantity"])
         return CheckoutResult(
             False,
-            f"Partial checkout: {len(order_ids)} succeeded, {len(failures)} failed",
+            f"Partial checkout: {len(order_ids)}, {len(failures)}",
             order_ids=order_ids,
             failures=failures,
         )
