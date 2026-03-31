@@ -13,7 +13,7 @@ from unittest.mock import patch, MagicMock
 import orders
 
 
-# ── Helper: a factory for a fake inventory.get_stock / reduce_stock ──────────=
+# ── Helper: a factory for a fake inventory.get_stock / reduce_stock ──────────
 
 def _mock_inventory(stock_value=10, reduce_returns=True):
     """
