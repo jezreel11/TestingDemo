@@ -9,7 +9,7 @@ _stock = {
 
 
 def get_stock(item_id: str) -> int:
-    """Return current stock count for an item. Returns 0 if the item is unknown."""
+    "Return current stock count for an item."
     return _stock.get(item_id, 0)
 
 

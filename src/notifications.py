@@ -5,7 +5,7 @@
 _sent = []
 
 
-def send_confirmation(email: str, order_id: str, item_id: str, quantity: int) -> None:
+def send_confirmation(email, order_id, item_id, quantity) -> None:
     """Record a confirmation notification (simulates sending an email)."""
     record = {
         "email": email,
