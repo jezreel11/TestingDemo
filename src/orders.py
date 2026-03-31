@@ -29,7 +29,7 @@ def place_order(customerEmail, item_id, quantity) -> OrderResult:
       4. Send a confirmation via notifications.send_confirmation()
       5. Return an OrderResult indicating success or failure
     """
-    if not customer_email or "@" not in customer_email:
+    if not customerEmail or "@" not in customerEmail:
         return OrderResult(False, "Invalid customer email")
 
     if quantity <= 0:
