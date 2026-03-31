@@ -16,5 +16,8 @@ jobs:
       - name: Install dependencies
         run: pip install pytest flake8
 
+      - name: Lint
+        run: flake8 src/ tests/
+
       - name: test
         run: pytest tests/ -v
